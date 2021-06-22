@@ -17,7 +17,7 @@ fun main() {
 
     if (limitsTypeCard(typeCard, previousAmountRub, amountKop.toInt())) {
         val totalCommission = commissionTypeCardKop(typeCard, previousAmountRub, amountKop.toInt())
-        val totalAmountRub = (amountKop + totalCommission.toDouble()) / 100
+        val totalAmountRub = (amountKop + totalCommission) / 100
 
         val totalString = "%.2f".format(totalAmountRub)
         val rub = totalString.substringBefore(",")
@@ -47,12 +47,12 @@ fun limitsTypeCard(typeCard: String = "VK", previousAmountRub: Int = 0, amountKo
     }
 }
 
-fun commissionTypeCardKop(typeCard: String = "VK", previousAmountRub: Int = 0, amountKop: Int): Number {
+fun commissionTypeCardKop(typeCard: String = "VK", previousAmountRub: Int = 0, amountKop: Int): Double {
     return when (typeCard) {
         "Mastercard" -> {
             when {
                 previousAmountRub + amountKop / 100 > LIMIT_COMMISSION_MASTERCARD_RUB -> amountKop * COMMISSION_MASTERCARD + ADDITIONAL_COMMISSION_MASTERCARD_KOP
-                else -> 0
+                else -> 0.0
             }
         }
         "Visa", "Mir" -> {
@@ -61,6 +61,6 @@ fun commissionTypeCardKop(typeCard: String = "VK", previousAmountRub: Int = 0, a
                 else -> COMMISSION_VISA_MIR
             }
         }
-        else -> 0
+        else -> 0.0
     }
 }
